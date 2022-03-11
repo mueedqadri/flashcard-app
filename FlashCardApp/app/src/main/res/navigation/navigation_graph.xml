@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/displayFlashCards">
+
+    <fragment
+        android:id="@+id/displayFlashCards"
+        android:name="com.example.flashcardapp.fragments.DisplayFlashCards"
+        android:label="DisplayFlashCards" >
+        <action
+            android:id="@+id/action_displayFlashCards_to_basicFlashcard"
+            app:destination="@id/basicFlashcard" />
+    </fragment>
+    <fragment
+        android:id="@+id/basicFlashcard"
+        android:name="com.example.flashcardapp.fragments.BasicFlashcard"
+        android:label="BasicFlashcard" >
+        <action
+            android:id="@+id/action_basicFlashcard_to_displayFlashCards"
+            app:destination="@id/displayFlashCards" />
+    </fragment>
+</navigation>

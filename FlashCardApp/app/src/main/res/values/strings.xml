@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FlashCardApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Your_FlashCards">My FlashCards</string>
+    <string name="note_title_field_hint">Title</string>
+    <string name="create_Basic_flashcard">Create FlashCard</string>
+</resources>
