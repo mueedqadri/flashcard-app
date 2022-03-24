@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Flashcards</string>
+    <string name="question">TextView</string>
+    <string name="answer">TextView</string>
+    <string name="type_your_question">Type Your Question</string>
+    <string name="type_your_answer">Type Your Answer</string>
+    <string name="create_card">Create Card</string>
+</resources>
