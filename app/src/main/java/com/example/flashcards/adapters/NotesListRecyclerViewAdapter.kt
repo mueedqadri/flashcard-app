@@ -6,36 +6,36 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
-import com.example.flashcards.models.NoteModel
+import com.example.flashcards.models.FlashCardModel
 
-class NotesListRecyclerViewAdapter() : RecyclerView.Adapter<NotesListRecyclerViewAdapter.NoteListItem>() {
-    private var notes = emptyList<NoteModel>()
+class NotesListRecyclerViewAdapter() : RecyclerView.Adapter<NotesListRecyclerViewAdapter.FlashCardListItem>() {
+    private var flashcard = emptyList<FlashCardModel>()
 
-    inner class NoteListItem(notesListItemView: View?) : RecyclerView.ViewHolder(notesListItemView!!) {
-        val noteTitleTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.noteTitleTextView)
-        val noteBodyTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.noteBodyTextView)
-        var notePosition = 0
+    inner class FlashCardListItem(notesListItemView: View?) : RecyclerView.ViewHolder(notesListItemView!!) {
+        val questionTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.questionTextView)
+        val answerTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.answerTextView)
+        var flashcardPosition = 0
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListItem {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlashCardListItem {
         val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
-        val noteListItemView: View = layoutInflater.inflate(R.layout.notes_list_item, parent, false)
-        return NoteListItem(noteListItemView)
+        val flashcardListItemView: View = layoutInflater.inflate(R.layout.notes_list_item, parent, false)
+        return FlashCardListItem(flashcardListItemView)
     }
 
-    override fun onBindViewHolder(holder: NoteListItem, position: Int) {
-        val note: NoteModel = notes[position]
-        holder.noteTitleTextView?.text = note.noteTitle
-        holder.noteBodyTextView?.text = note.noteBody
-        holder.notePosition = position
+    override fun onBindViewHolder(holder: FlashCardListItem, position: Int) {
+        val flashCard: FlashCardModel = flashcard[position]
+        holder.questionTextView?.text = flashCard.question
+        holder.answerTextView?.text = flashCard.answer
+        holder.flashcardPosition = position
     }
 
     override fun getItemCount(): Int {
-        return notes.size
+        return flashcard.size
     }
 
-    fun setNotes(notes: List<NoteModel>) {
-        this.notes = notes
+    fun setFlashCards(flashCards: List<FlashCardModel>) {
+        this.flashcard = flashCards
         notifyDataSetChanged()
     }
 }
