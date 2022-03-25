@@ -36,27 +36,38 @@ class CreateNoteFragment : Fragment() {
         val answerInputField = view.findViewById<TextView>(R.id.answerInputField)
 
         toolBar.setNavigationOnClickListener {
-
-            findNavController().navigate(R.id.action_createNoteFragment_to_notesListFragment)
+            checkCard(questionInputField, answerInputField, view, backAction = true)
         }
         view.findViewById<Button>(R.id.createFlashcardButton).setOnClickListener {
-            checkCard(questionInputField, answerInputField, view)
+            checkCard(questionInputField, answerInputField, view, backAction = false)
         }
     }
 
     private fun checkCard(
         questionInputField: TextView,
         answerInputField: TextView,
-        view: View
+        view: View,
+        backAction: Boolean
     ) {
-        if (questionInputField.text.toString().trim().isEmpty() || answerInputField.text.toString().trim().isEmpty()) {
-            Snackbar.make(view, R.string.empty_flashcard, Snackbar.LENGTH_LONG)
+        if(backAction && questionInputField.text.toString().trim().isNotEmpty() && answerInputField.text.toString().trim().isNotEmpty()){
+            Snackbar.make(view, R.string.flashcard_save_warning, Snackbar.LENGTH_LONG)
+                .setAction(R.string.yes) {
+                    findNavController().navigate(R.id.action_createNoteFragment_to_notesListFragment)
+                }
                 .show()
-        } else {
-            saveNote(questionInputField, answerInputField)
-            Snackbar.make(view, R.string.save_flashcard_confirmation, Snackbar.LENGTH_LONG)
-                .show()
+        }else if (backAction){
+            findNavController().navigate(R.id.action_createNoteFragment_to_notesListFragment)
+        }else{
+            if (questionInputField.text.toString().trim().isEmpty() || answerInputField.text.toString().trim().isEmpty()) {
+                Snackbar.make(view, R.string.empty_flashcard, Snackbar.LENGTH_LONG)
+                    .show()
+            } else {
+                saveNote(questionInputField, answerInputField)
+                Snackbar.make(view, R.string.save_flashcard_confirmation, Snackbar.LENGTH_LONG)
+                    .show()
+            }
         }
+
     }
 
     private fun saveNote(questionField: TextView, answerField: TextView) {
