@@ -9,9 +9,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.flashcards.R
-import com.example.flashcards.models.NoteModel
-import com.example.flashcards.persistence.NotesPersistence
+import com.example.flashcards.models.FlashCardModel
+import com.example.flashcards.persistence.FlashCardDatabaseHandler
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 class CreateNoteFragment : Fragment() {
 
@@ -30,35 +31,31 @@ class CreateNoteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val toolBar = view.findViewById<Toolbar>(R.id.topAppBarCreateNoteFragment)
-        val noteTitleInputField = view.findViewById<TextView>(R.id.questionInputField)
-        val noteBodyInputField = view.findViewById<TextView>(R.id.answerInputField)
+        val questionInputField = view.findViewById<TextView>(R.id.questionInputField)
+        val answerInputField = view.findViewById<TextView>(R.id.answerInputField)
 
         toolBar.setNavigationOnClickListener {
-            //If title is not present and note has a body show the Snackbar
-            if(noteTitleInputField.text.toString().trim().isEmpty() && noteBodyInputField.text.toString().isNotEmpty())  {
+            if(questionInputField.text.toString().trim().isEmpty() && answerInputField.text.toString().isNotEmpty())  {
                 Snackbar.make(view, R.string.empty_prompt, Snackbar.LENGTH_LONG)
                     .setAction(R.string.yes){
-                        //Save the note after user conformation
-                        saveNote(noteTitleInputField, noteBodyInputField)
+                        saveNote(questionInputField, answerInputField)
                     }
                     .show()
             } else {
-                saveNote(noteTitleInputField, noteBodyInputField)
-                //Show note saved successfully
+                saveNote(questionInputField, answerInputField)
                 Snackbar.make(view, R.string.save_flashcard_confirmation, Snackbar.LENGTH_LONG)
                     .show()
             }
         }
     }
 
-    private fun saveNote(noteTitleInputField: TextView, noteBodyInputField: TextView) {
-        val noteTitle: String = noteTitleInputField.text.toString()
-        val noteBody: String = noteBodyInputField.text.toString()
-        val note = NoteModel(noteTitle, noteBody)
-
-        //Check if the note has a body and title
-        if(noteTitle.isNotEmpty() || noteBody.isNotEmpty()){
-            NotesPersistence.notes.add(note)
+    private fun saveNote(questionField: TextView, answerField: TextView) {
+        val question: String = questionField.text.toString()
+        val answer: String = answerField.text.toString()
+        val id:String = UUID.randomUUID().toString();
+        val flashCard = FlashCardModel(id,question, answer)
+        if(question.isNotEmpty() || answer.isNotEmpty()){
+            context?.let { FlashCardDatabaseHandler(context= it).addFlashCard(flashCard) };
         }
         findNavController().navigate(R.id.action_createNoteFragment_to_notesListFragment)
     }

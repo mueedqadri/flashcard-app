@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
 import com.example.flashcards.adapters.NotesListRecyclerViewAdapter
-import com.example.flashcards.persistence.NotesPersistence
+import com.example.flashcards.persistence.FlashCardDatabaseHandler
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class NotesListFragment : Fragment() {
@@ -34,7 +34,8 @@ class NotesListFragment : Fragment() {
         notesRecyclerViewUI.layoutManager = LinearLayoutManager(activity)
         val notesListRecyclerViewAdapter: NotesListRecyclerViewAdapter = NotesListRecyclerViewAdapter()
         notesRecyclerViewUI.adapter = notesListRecyclerViewAdapter
-        notesListRecyclerViewAdapter.setNotes(NotesPersistence.notes)
+        context?.let { FlashCardDatabaseHandler(context= it).viewFlashCards() }
+            ?.let { notesListRecyclerViewAdapter.setNotes(it) }
 
         view.findViewById<FloatingActionButton>(R.id.floating_action_button).setOnClickListener {
             findNavController().navigate(R.id.action_notesListFragment_to_createNoteFragment)

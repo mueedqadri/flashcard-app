@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
-import com.example.flashcards.models.NoteModel
+import com.example.flashcards.models.FlashCardModel
 
 class NotesListRecyclerViewAdapter() : RecyclerView.Adapter<NotesListRecyclerViewAdapter.NoteListItem>() {
-    private var notes = emptyList<NoteModel>()
+    private var notes = emptyList<FlashCardModel>()
 
     inner class NoteListItem(notesListItemView: View?) : RecyclerView.ViewHolder(notesListItemView!!) {
         val noteTitleTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.noteTitleTextView)
@@ -24,9 +24,9 @@ class NotesListRecyclerViewAdapter() : RecyclerView.Adapter<NotesListRecyclerVie
     }
 
     override fun onBindViewHolder(holder: NoteListItem, position: Int) {
-        val note: NoteModel = notes[position]
-        holder.noteTitleTextView?.text = note.noteTitle
-        holder.noteBodyTextView?.text = note.noteBody
+        val flashCard: FlashCardModel = notes[position]
+        holder.noteTitleTextView?.text = flashCard.question
+        holder.noteBodyTextView?.text = flashCard.answer
         holder.notePosition = position
     }
 
@@ -34,8 +34,8 @@ class NotesListRecyclerViewAdapter() : RecyclerView.Adapter<NotesListRecyclerVie
         return notes.size
     }
 
-    fun setNotes(notes: List<NoteModel>) {
-        this.notes = notes
+    fun setNotes(flashCards: List<FlashCardModel>) {
+        this.notes = flashCards
         notifyDataSetChanged()
     }
 }
