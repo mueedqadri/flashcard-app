@@ -46,8 +46,8 @@ class ViewFlashCardFragment : Fragment() {
         val viewAnswerButton = view.findViewById<Button>(R.id.view_answer_button)
         val layoutExpand = view.findViewById<LinearLayout>(R.id.layout_expand)
         val cardView = view.findViewById<CardView>(R.id.view_cardview)
-        val nextCardbutton = view.findViewById<Button>(R.id.nextflashcard)
-        val deleteCardButton = view.findViewById<Button>(R.id.deleteflashcard)
+        val nextCardbutton = view.findViewById<Button>(R.id.previous_card_button)
+        val previousCardbutton = view.findViewById<Button>(R.id.previous_card_button)
 
          viewCardQuestion.text = (currentCard as FlashCardModel).question;
         viewAnswerButton.setOnClickListener{
