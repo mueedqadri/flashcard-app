@@ -12,7 +12,7 @@ class NotesListRecyclerViewAdapter() : RecyclerView.Adapter<NotesListRecyclerVie
     private var notes = emptyList<NoteModel>()
 
     inner class NoteListItem(notesListItemView: View?) : RecyclerView.ViewHolder(notesListItemView!!) {
-        val noteTitleTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.noteTitleTextView)
+        val noteTitleTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.folderName)
         val noteBodyTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.noteBodyTextView)
         var notePosition = 0
     }

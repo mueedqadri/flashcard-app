@@ -13,4 +13,6 @@
     <string name="save_flashcard_confirmation">Flashcard Saved Successfully </string>
     <string name="answer_text">Answer</string>
     <string name="question_text">Question</string>
+    <string name="create_folder">New folder name</string>
+    <string name="folder_text">Folder</string>
 </resources>
