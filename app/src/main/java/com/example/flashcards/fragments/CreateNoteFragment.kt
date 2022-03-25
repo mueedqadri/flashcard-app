@@ -17,10 +17,6 @@ import java.util.*
 
 class CreateNoteFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -73,10 +69,10 @@ class CreateNoteFragment : Fragment() {
     private fun saveNote(questionField: TextView, answerField: TextView) {
         val question: String = questionField.text.toString()
         val answer: String = answerField.text.toString()
-        val id:String = UUID.randomUUID().toString();
+        val id:String = UUID.randomUUID().toString()
         val flashCard = FlashCardModel(id,question, answer)
         if(question.isNotEmpty() || answer.isNotEmpty()){
-            context?.let { FlashCardDatabaseHandler(context= requireContext()).addFlashCard(flashCard) };
+            context?.let { FlashCardDatabaseHandler(context= requireContext()).addFlashCard(flashCard) }
         }
         findNavController().navigate(R.id.action_createNoteFragment_to_notesListFragment)
     }

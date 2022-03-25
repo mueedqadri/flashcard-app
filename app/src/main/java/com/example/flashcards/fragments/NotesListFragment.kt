@@ -1,9 +1,12 @@
 package com.example.flashcards.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,10 +18,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class NotesListFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,16 +27,34 @@ class NotesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+       // var deleteButton = view.findViewById<Button>(R.id.notesListRecyclerView);
 
         val flashcardRecyclerViewUI: RecyclerView = view.findViewById(R.id.notesListRecyclerView)
         flashcardRecyclerViewUI.layoutManager = LinearLayoutManager(activity)
         val flashcardListRecyclerViewAdapter: NotesListRecyclerViewAdapter = NotesListRecyclerViewAdapter()
-        flashcardRecyclerViewUI.adapter = flashcardListRecyclerViewAdapter
+
+        var adapter = flashcardListRecyclerViewAdapter
         context?.let { FlashCardDatabaseHandler(context= requireContext()).viewFlashCards() }
             ?.let { flashcardListRecyclerViewAdapter.setFlashCards(it) }
 
+        flashcardRecyclerViewUI.adapter = adapter
+        adapter.setOnItemClickListener(object : NotesListRecyclerViewAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                Log.i("position",position.toString())
+            }
+        })
+
         view.findViewById<FloatingActionButton>(R.id.floating_action_button).setOnClickListener {
             findNavController().navigate(R.id.action_notesListFragment_to_createNoteFragment)
+        }
+
+//        deleteButton.setOnClickListener{
+//           Log.i("delete","janhavi")
+//        }
+
+        val deletBtn = view.findViewById<Button>(R.id.deleteFlashCardButton)
+        deletBtn.setOnClickListener {
+
         }
     }
 }
