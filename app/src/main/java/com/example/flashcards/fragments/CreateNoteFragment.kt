@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -35,17 +36,26 @@ class CreateNoteFragment : Fragment() {
         val answerInputField = view.findViewById<TextView>(R.id.answerInputField)
 
         toolBar.setNavigationOnClickListener {
-            if(questionInputField.text.toString().trim().isEmpty() && answerInputField.text.toString().isNotEmpty())  {
-                Snackbar.make(view, R.string.empty_prompt, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.yes){
-                        saveNote(questionInputField, answerInputField)
-                    }
-                    .show()
-            } else {
-                saveNote(questionInputField, answerInputField)
-                Snackbar.make(view, R.string.save_flashcard_confirmation, Snackbar.LENGTH_LONG)
-                    .show()
-            }
+
+            findNavController().navigate(R.id.action_createNoteFragment_to_notesListFragment)
+        }
+        view.findViewById<Button>(R.id.createFlashcardButton).setOnClickListener {
+            checkCard(questionInputField, answerInputField, view)
+        }
+    }
+
+    private fun checkCard(
+        questionInputField: TextView,
+        answerInputField: TextView,
+        view: View
+    ) {
+        if (questionInputField.text.toString().trim().isEmpty() || answerInputField.text.toString().trim().isEmpty()) {
+            Snackbar.make(view, R.string.empty_flashcard, Snackbar.LENGTH_LONG)
+                .show()
+        } else {
+            saveNote(questionInputField, answerInputField)
+            Snackbar.make(view, R.string.save_flashcard_confirmation, Snackbar.LENGTH_LONG)
+                .show()
         }
     }
 
@@ -55,7 +65,7 @@ class CreateNoteFragment : Fragment() {
         val id:String = UUID.randomUUID().toString();
         val flashCard = FlashCardModel(id,question, answer)
         if(question.isNotEmpty() || answer.isNotEmpty()){
-            context?.let { FlashCardDatabaseHandler(context= it).addFlashCard(flashCard) };
+            context?.let { FlashCardDatabaseHandler(context= requireContext()).addFlashCard(flashCard) };
         }
         findNavController().navigate(R.id.action_createNoteFragment_to_notesListFragment)
     }

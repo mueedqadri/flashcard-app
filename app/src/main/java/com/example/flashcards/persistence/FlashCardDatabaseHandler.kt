@@ -68,13 +68,13 @@ class FlashCardDatabaseHandler(context: Context): SQLiteOpenHelper(context, DATA
         var flashCardAnswer:String
 
         if (cursor.moveToFirst()) {
-            while (cursor.isAfterLast == false) {
+            do {
                 flashCardId = cursor.getString(cursor.getColumnIndex("id"))
                 flashCardQuestion = cursor.getString(cursor.getColumnIndex("question"))
                 flashCardAnswer = cursor.getString(cursor.getColumnIndex("answer"))
                 val flashCard = FlashCardModel(id = flashCardId, question = flashCardQuestion, answer = flashCardAnswer)
                 flashCards.add(flashCard)
-            }
+            } while (cursor.moveToNext())
         }
 
         return flashCards

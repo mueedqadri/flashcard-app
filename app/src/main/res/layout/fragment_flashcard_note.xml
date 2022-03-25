@@ -63,7 +63,7 @@
 
 
         <EditText
-            android:id="@+id/answerInputField"
+            android:id="@+id/questionInputField"
             android:layout_width="match_parent"
             android:layout_height="165dp"
             android:gravity="start|top"
@@ -94,7 +94,7 @@
         app:shapeAppearanceOverlay="@style/ShapeAppearance.App.SmallComponent">
 
         <EditText
-            android:id="@+id/questionInputField"
+            android:id="@+id/answerInputField"
             android:layout_width="match_parent"
             android:layout_height="165dp"
             android:gravity="start|top"
@@ -127,7 +127,7 @@
         app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldForQuestion" />
 
     <Button
-        android:id="@+id/createCardButton"
+        android:id="@+id/createFlashcardButton"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="146dp"
         android:layout_height="49dp"

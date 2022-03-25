@@ -23,19 +23,18 @@ class NotesListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_notes_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val notesRecyclerViewUI: RecyclerView = view.findViewById(R.id.notesListRecyclerView)
-        notesRecyclerViewUI.layoutManager = LinearLayoutManager(activity)
-        val notesListRecyclerViewAdapter: NotesListRecyclerViewAdapter = NotesListRecyclerViewAdapter()
-        notesRecyclerViewUI.adapter = notesListRecyclerViewAdapter
-        context?.let { FlashCardDatabaseHandler(context= it).viewFlashCards() }
-            ?.let { notesListRecyclerViewAdapter.setNotes(it) }
+        val flashcardRecyclerViewUI: RecyclerView = view.findViewById(R.id.notesListRecyclerView)
+        flashcardRecyclerViewUI.layoutManager = LinearLayoutManager(activity)
+        val flashcardListRecyclerViewAdapter: NotesListRecyclerViewAdapter = NotesListRecyclerViewAdapter()
+        flashcardRecyclerViewUI.adapter = flashcardListRecyclerViewAdapter
+        context?.let { FlashCardDatabaseHandler(context= requireContext()).viewFlashCards() }
+            ?.let { flashcardListRecyclerViewAdapter.setFlashCards(it) }
 
         view.findViewById<FloatingActionButton>(R.id.floating_action_button).setOnClickListener {
             findNavController().navigate(R.id.action_notesListFragment_to_createNoteFragment)
