@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.transition.AutoTransition
 import android.transition.TransitionManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +16,7 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.flashcards.R
-import com.example.flashcards.models.NoteModel
-import com.example.flashcards.persistence.NotesPersistence
+import com.example.flashcards.models.FlashCardModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 
@@ -37,6 +37,8 @@ class ViewFlashCardFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.i("tagtag",requireArguments().getSerializable("currCard").toString())
+        var currentCard = requireArguments().getSerializable("currCard");
         val toolBar = view.findViewById<Toolbar>(R.id.topAppBarViewCardFragment)
         val viewCardTitle = view.findViewById<TextView>(R.id.view_card_title)
         val viewCardQuestion = view.findViewById<TextView>(R.id.view_card_question)
@@ -47,11 +49,13 @@ class ViewFlashCardFragment : Fragment() {
         val nextCardbutton = view.findViewById<Button>(R.id.nextflashcard)
         val deleteCardButton = view.findViewById<Button>(R.id.deleteflashcard)
 
+         viewCardQuestion.text = (currentCard as FlashCardModel).question;
         viewAnswerButton.setOnClickListener{
             if(layoutExpand.visibility == View.GONE){
                 TransitionManager.beginDelayedTransition(cardView, AutoTransition())
                 layoutExpand.visibility = View.VISIBLE
                 viewAnswerButton.text = "Hide Answer"
+                viewCardAnswer.text = (currentCard as FlashCardModel).answer;
             }
             else{
                 TransitionManager.beginDelayedTransition(cardView, AutoTransition())

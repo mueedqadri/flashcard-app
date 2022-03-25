@@ -41,6 +41,13 @@ class NotesListFragment : Fragment() {
         adapter.setOnItemClickListener(object : NotesListRecyclerViewAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
                 Log.i("position",position.toString())
+                var item = flashcardListRecyclerViewAdapter.getFlashCards()[position]
+                var allCards = flashcardListRecyclerViewAdapter.getFlashCards();
+                findNavController().navigate(R.id.action_notesListFragment_to_viewFlashCardFragment,Bundle().apply {
+                    putString("fileName",item.toString());
+
+                    putSerializable("currCard", item)
+                })
             }
         })
 
@@ -52,9 +59,9 @@ class NotesListFragment : Fragment() {
 //           Log.i("delete","janhavi")
 //        }
 
-        val deletBtn = view.findViewById<Button>(R.id.deleteFlashCardButton)
-        deletBtn.setOnClickListener {
-
-        }
+//        val deletBtn = view.findViewById<Button>(R.id.deleteFlashCardButton)
+//        deletBtn.setOnClickListener {
+//
+//        }
     }
 }

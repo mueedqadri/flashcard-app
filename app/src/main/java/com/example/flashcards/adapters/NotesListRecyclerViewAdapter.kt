@@ -43,6 +43,10 @@ class NotesListRecyclerViewAdapter : RecyclerView.Adapter<NotesListRecyclerViewA
         this.flashcard = flashCards
         notifyDataSetChanged()
     }
+
+    fun getFlashCards(): List<FlashCardModel> {
+        return this.flashcard;
+    }
     inner class FlashCardListItem(notesListItemView: View?, listener: onItemClickListener) : RecyclerView.ViewHolder(notesListItemView!!) {
         val questionTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.questionTextView)
         val answerTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.answerTextView)
