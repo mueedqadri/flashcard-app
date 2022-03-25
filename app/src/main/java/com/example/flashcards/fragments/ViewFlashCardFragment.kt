@@ -15,10 +15,6 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.flashcards.R
-import com.example.flashcards.models.NoteModel
-import com.example.flashcards.persistence.NotesPersistence
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.snackbar.Snackbar
 
 class ViewFlashCardFragment : Fragment() {
 
