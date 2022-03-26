@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout01"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.NotesListFragment">
+    tools:context=".fragments.FlashCardListFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout2"
@@ -50,6 +50,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout2"
-        tools:listitem="@layout/notes_list_item" />
+        tools:listitem="@layout/flash_card_list_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

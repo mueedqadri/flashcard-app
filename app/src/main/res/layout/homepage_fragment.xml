@@ -10,7 +10,7 @@
         android:id="@+id/appTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Flashcard App"
+        android:text="@string/flashcard_app"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,8 +24,6 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="327dp"
         android:layout_height="109dp"
-        app:counterEnabled="true"
-        app:counterMaxLength="20"
         app:endIconMode="clear_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,17 +57,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.942" />
 
-    <ListView
-        android:id="@+id/folderListView"
-        android:layout_width="319dp"
-        android:layout_height="345dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appTitle"
-        app:layout_constraintVertical_bias="0.09" />
 
-    <!--
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/folderListRecyclerView"
         android:layout_width="319dp"
@@ -79,6 +67,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appTitle"
         app:layout_constraintVertical_bias="0.09"
-        tools:listitem="@layout/folder_list_item" /> -->
+        tools:listitem="@layout/flash_card_list_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
