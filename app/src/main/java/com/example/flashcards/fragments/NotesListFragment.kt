@@ -45,14 +45,19 @@ class NotesListFragment : Fragment() {
             NotesListRecyclerViewAdapter.OnDeleteClickListener {
             @SuppressLint("NotifyDataSetChanged")
             override fun onDeleteClick(position: Int) {
-                val item = flashcardListRecyclerViewAdapter.getFlashCards()[position]
-                FlashCardDatabaseHandler(context = requireContext()).deleteFlashCard(item.id)
-                flashcardListRecyclerViewAdapter.setFlashCards(flashcardListRecyclerViewAdapter.getFlashCards().filter {
-                    it.id != item.id
-                } )
-                flashcardListRecyclerViewAdapter.notifyItemRemoved(position)
-                Snackbar.make(view, R.string.delete_successful, Snackbar.LENGTH_LONG)
+                Snackbar.make(view, R.string.flashcard_delete_warning, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.yes) {
+                        val item = flashcardListRecyclerViewAdapter.getFlashCards()[position]
+                        FlashCardDatabaseHandler(context = requireContext()).deleteFlashCard(item.id)
+                        flashcardListRecyclerViewAdapter.setFlashCards(flashcardListRecyclerViewAdapter.getFlashCards().filter {
+                            it.id != item.id
+                        } )
+                        flashcardListRecyclerViewAdapter.notifyItemRemoved(position)
+                        Snackbar.make(view, R.string.delete_successful, Snackbar.LENGTH_LONG)
+                            .show()
+                    }
                     .show()
+
             }
         })
         flashcardListRecyclerViewAdapter.setOnItemClickListener(object :

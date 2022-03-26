@@ -10,6 +10,7 @@
     <string name="notes_list_fragment_placeholder">Flashcard List Fragment</string>
     <string name="create_flashcard_fragment_title">Create Flashcard</string>
     <string name="flashcard_save_warning">Do not save the Flashcard? </string>
+    <string name="flashcard_delete_warning">Delete Flashcard? </string>
     <string name="empty_prompt">Question and answer cannot be empty</string>
     <string name="fab_content_desc">Create Note</string>
     <string name="save_flashcard_confirmation">Flashcard Saved Successfully </string>
