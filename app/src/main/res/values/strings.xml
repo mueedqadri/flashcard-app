@@ -17,4 +17,6 @@
     <string name="delete_successful">Flash card deleted</string>
     <string name="answer_text">Answer</string>
     <string name="question_text">Question</string>
+    <string name="create_folder">New folder name</string>
+    <string name="folder_text">Folder</string>
 </resources>
