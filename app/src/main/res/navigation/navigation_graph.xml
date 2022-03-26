@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_notesListFragment_to_createNoteFragment"
             app:destination="@id/createNoteFragment" />
+        <action
+            android:id="@+id/action_notesListFragment_to_viewFlashCardFragment"
+            app:destination="@id/viewFlashCardFragment" />
     </fragment>
 
     <fragment
