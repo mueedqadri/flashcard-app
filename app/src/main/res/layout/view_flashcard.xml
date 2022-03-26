@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".fragments.ViewFlashCardFragment">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -29,46 +28,39 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/view_cardview"
         android:layout_width="337dp"
-        android:layout_height="493dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="31dp"
         android:layout_marginEnd="16dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linear_button_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:layout_constraintVertical_bias="0.048"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:layout_constraintVertical_bias="0.048">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/view_card_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Question"
-                android:textAlignment="center"
-                android:textAppearance="?attr/textAppearanceHeadline6">
-
-            </TextView>
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:dividerInsetEnd="10dp"
-                app:dividerInsetStart="10dp"></com.google.android.material.divider.MaterialDivider>
+                app:dividerInsetEnd="0dp"
+                app:dividerInsetStart="0dp"></com.google.android.material.divider.MaterialDivider>
 
             <TextView
                 android:id="@+id/view_card_question"
                 android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:textAppearance="?attr/textAppearanceHeadline6">
 
             </TextView>
 
@@ -78,12 +70,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone">
-
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerInsetEnd="0dp"
+                    app:dividerInsetStart="0dp"></com.google.android.material.divider.MaterialDivider>
 
                 <TextView
                     android:id="@+id/view_card_answer"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:textAppearance="?attr/textAppearanceHeadline6">
 
                 </TextView>
             </LinearLayout>
@@ -91,13 +91,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginTop="18dp"/>
+                android:layout_marginTop="18dp" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:dividerInsetEnd="10dp"
-                app:dividerInsetStart="10dp"></com.google.android.material.divider.MaterialDivider>
+                app:dividerInsetEnd="0dp"
+                app:dividerInsetStart="0dp"></com.google.android.material.divider.MaterialDivider>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/view_answer_button"
@@ -113,44 +113,42 @@
 
         </LinearLayout>
 
-
     </com.google.android.material.card.MaterialCardView>
 
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/nextflashcard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="227dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="41dp"
-        android:text="Next Card"
+    <LinearLayout
+        android:id="@+id/linear_button_layout"
+        android:layout_width="410dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginBottom="53dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_cardview">
 
-
-    </com.google.android.material.button.MaterialButton>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/deleteflashcard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="66dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="34dp"
-        android:layout_marginBottom="48dp"
-        android:text="Delete Card"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/nextflashcard"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_cardview"
-        app:layout_constraintVertical_bias="0.0">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/previous_card_button"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="Previous Card">
 
 
-    </com.google.android.material.button.MaterialButton>
+        </com.google.android.material.button.MaterialButton>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/next_card_button"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="Next Card">
+
+
+        </com.google.android.material.button.MaterialButton>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -62,6 +62,7 @@ class NotesListRecyclerViewAdapter : RecyclerView.Adapter<NotesListRecyclerViewA
     }
 
     inner class FlashCardListItem(notesListItemView: View?, listener: OnItemClickListener, deleteListener: OnDeleteClickListener) : RecyclerView.ViewHolder(notesListItemView!!) {
+
         val questionTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.questionTextView)
         val answerTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.answerTextView)
         private val deleteButton: Button? = notesListItemView?.findViewById<Button>(R.id.deleteFlashCardButton)

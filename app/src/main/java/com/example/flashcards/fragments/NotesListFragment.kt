@@ -58,7 +58,14 @@ class NotesListFragment : Fragment() {
         flashcardListRecyclerViewAdapter.setOnItemClickListener(object :
             NotesListRecyclerViewAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
-                Log.i("position", position.toString())
+                Log.i("position",position.toString())
+                var item = flashcardListRecyclerViewAdapter.getFlashCards()[position]
+                var allCards = flashcardListRecyclerViewAdapter.getFlashCards();
+                findNavController().navigate(R.id.action_notesListFragment_to_viewFlashCardFragment,Bundle().apply {
+                    putString("fileName",item.toString());
+
+                    putSerializable("currCard", item)
+                })
             }
         })
 
@@ -68,5 +75,6 @@ class NotesListFragment : Fragment() {
     }
 
     private fun onListItemClick(position: Int) {
+
     }
 }
