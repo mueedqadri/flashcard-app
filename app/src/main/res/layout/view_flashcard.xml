@@ -28,7 +28,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/view_cardview"
         android:layout_width="337dp"
-        android:layout_height="493dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="31dp"
         android:layout_marginEnd="16dp"
@@ -39,35 +39,28 @@
         app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:layout_constraintVertical_bias="0.048"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:layout_constraintVertical_bias="0.048">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/view_card_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Question"
-                android:textAlignment="center"
-                android:textAppearance="?attr/textAppearanceHeadline6">
-
-            </TextView>
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:dividerInsetEnd="10dp"
-                app:dividerInsetStart="10dp"></com.google.android.material.divider.MaterialDivider>
+                app:dividerInsetEnd="0dp"
+                app:dividerInsetStart="0dp"></com.google.android.material.divider.MaterialDivider>
 
             <TextView
                 android:id="@+id/view_card_question"
                 android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:textAppearance="?attr/textAppearanceHeadline6">
 
             </TextView>
 
@@ -77,12 +70,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone">
-
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerInsetEnd="0dp"
+                    app:dividerInsetStart="0dp"></com.google.android.material.divider.MaterialDivider>
 
                 <TextView
                     android:id="@+id/view_card_answer"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:textAppearance="?attr/textAppearanceHeadline6">
 
                 </TextView>
             </LinearLayout>
@@ -95,8 +96,8 @@
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:dividerInsetEnd="10dp"
-                app:dividerInsetStart="10dp"></com.google.android.material.divider.MaterialDivider>
+                app:dividerInsetEnd="0dp"
+                app:dividerInsetStart="0dp"></com.google.android.material.divider.MaterialDivider>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/view_answer_button"

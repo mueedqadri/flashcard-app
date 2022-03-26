@@ -40,7 +40,6 @@ class ViewFlashCardFragment : Fragment() {
         Log.i("tagtag",requireArguments().getSerializable("currCard").toString())
         var currentCard = requireArguments().getSerializable("currCard");
         val toolBar = view.findViewById<Toolbar>(R.id.topAppBarViewCardFragment)
-        val viewCardTitle = view.findViewById<TextView>(R.id.view_card_title)
         val viewCardQuestion = view.findViewById<TextView>(R.id.view_card_question)
         val viewCardAnswer = view.findViewById<TextView>(R.id.view_card_answer)
         val viewAnswerButton = view.findViewById<Button>(R.id.view_answer_button)
