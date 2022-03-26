@@ -16,6 +16,7 @@ import com.example.flashcards.models.FlashCardModel
 import com.example.flashcards.persistence.FlashCardDatabaseHandler
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import java.io.Serializable
 
 class NotesListFragment : Fragment() {
 
@@ -66,10 +67,11 @@ class NotesListFragment : Fragment() {
                 Log.i("position",position.toString())
                 var item = flashcardListRecyclerViewAdapter.getFlashCards()[position]
                 var allCards = flashcardListRecyclerViewAdapter.getFlashCards();
+                Log.i("All the flashcards",allCards.toString())
                 findNavController().navigate(R.id.action_notesListFragment_to_viewFlashCardFragment,Bundle().apply {
-                    putString("fileName",item.toString());
-
-                    putSerializable("currCard", item)
+                   // putInt("fileName",item.toString());
+                    putInt("currCardPosition", position)
+                    putSerializable("allCards",allCards as Serializable)
                 })
             }
         })
@@ -79,7 +81,9 @@ class NotesListFragment : Fragment() {
         }
     }
 
+
     private fun onListItemClick(position: Int) {
+
 
     }
 }
