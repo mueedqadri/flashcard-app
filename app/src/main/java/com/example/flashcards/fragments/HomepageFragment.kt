@@ -33,13 +33,17 @@ class HomepageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //folder list - ListView
+        val folderListViewUI: ListView = view.findViewById(R.id.folderListView)
+        folderListViewUI.adapter = ArrayAdapter(view.context, android.R.layout.simple_list_item_1, FolderPersistence.folderList)
+
         //folder list - RecyclerView
-        val folderRecyclerViewUI: RecyclerView = view.findViewById(R.id.folderListRecyclerView)
+        /** val folderRecyclerViewUI: RecyclerView = view.findViewById(R.id.folderListRecyclerView)
         folderRecyclerViewUI.layoutManager = LinearLayoutManager(activity)
         val folderListRecyclerViewAdapter: FolderListRecyclerViewAdapter = FolderListRecyclerViewAdapter()
         folderRecyclerViewUI.adapter = folderListRecyclerViewAdapter
 
-        folderListRecyclerViewAdapter.setFolderList(FolderPersistence.folderList)
+        folderListRecyclerViewAdapter.setFolderList(FolderPersistence.folderList) **/
 
         //new folder - TODO: fix new folder name not displayed properly after creating folder and going back to homepage
         val folderNameInputField = view.findViewById<TextView>(R.id.newFolderNameField)
