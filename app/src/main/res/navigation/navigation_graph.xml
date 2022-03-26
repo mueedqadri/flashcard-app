@@ -19,7 +19,7 @@
         android:id="@+id/notesListFragment"
         android:name="com.example.flashcards.fragments.NotesListFragment"
         android:label="fragment_notes_list"
-        tools:layout="@layout/fragment_notes_list" >
+        tools:layout="@layout/fragment_notes_list">
         <action
             android:id="@+id/action_notesListFragment_to_createNoteFragment"
             app:destination="@id/createNoteFragment" />
