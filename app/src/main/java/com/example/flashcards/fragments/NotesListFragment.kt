@@ -1,22 +1,27 @@
 package com.example.flashcards.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
 import com.example.flashcards.adapters.NotesListRecyclerViewAdapter
+import com.example.flashcards.models.FlashCardModel
 import com.example.flashcards.persistence.FlashCardDatabaseHandler
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 
 class NotesListFragment : Fragment() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,18 +32,31 @@ class NotesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       // var deleteButton = view.findViewById<Button>(R.id.notesListRecyclerView);
-
         val flashcardRecyclerViewUI: RecyclerView = view.findViewById(R.id.notesListRecyclerView)
         flashcardRecyclerViewUI.layoutManager = LinearLayoutManager(activity)
-        val flashcardListRecyclerViewAdapter: NotesListRecyclerViewAdapter = NotesListRecyclerViewAdapter()
+        val flashcardListRecyclerViewAdapter: NotesListRecyclerViewAdapter =
+            NotesListRecyclerViewAdapter()
 
-        var adapter = flashcardListRecyclerViewAdapter
-        context?.let { FlashCardDatabaseHandler(context= requireContext()).viewFlashCards() }
+        context?.let { FlashCardDatabaseHandler(context = requireContext()).viewFlashCards() }
             ?.let { flashcardListRecyclerViewAdapter.setFlashCards(it) }
 
-        flashcardRecyclerViewUI.adapter = adapter
-        adapter.setOnItemClickListener(object : NotesListRecyclerViewAdapter.onItemClickListener{
+        flashcardRecyclerViewUI.adapter = flashcardListRecyclerViewAdapter
+        flashcardListRecyclerViewAdapter.onDeleteClickListener(object:
+            NotesListRecyclerViewAdapter.OnDeleteClickListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDeleteClick(position: Int) {
+                val item = flashcardListRecyclerViewAdapter.getFlashCards()[position]
+                FlashCardDatabaseHandler(context = requireContext()).deleteFlashCard(item.id)
+                flashcardListRecyclerViewAdapter.setFlashCards(flashcardListRecyclerViewAdapter.getFlashCards().filter {
+                    it.id != item.id
+                } )
+                flashcardListRecyclerViewAdapter.notifyItemRemoved(position)
+                Snackbar.make(view, R.string.delete_successful, Snackbar.LENGTH_LONG)
+                    .show()
+            }
+        })
+        flashcardListRecyclerViewAdapter.setOnItemClickListener(object :
+            NotesListRecyclerViewAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 Log.i("position",position.toString())
                 var item = flashcardListRecyclerViewAdapter.getFlashCards()[position]
@@ -54,14 +72,9 @@ class NotesListFragment : Fragment() {
         view.findViewById<FloatingActionButton>(R.id.floating_action_button).setOnClickListener {
             findNavController().navigate(R.id.action_notesListFragment_to_createNoteFragment)
         }
+    }
 
-//        deleteButton.setOnClickListener{
-//           Log.i("delete","janhavi")
-//        }
+    private fun onListItemClick(position: Int) {
 
-//        val deletBtn = view.findViewById<Button>(R.id.deleteFlashCardButton)
-//        deletBtn.setOnClickListener {
-//
-//        }
     }
 }

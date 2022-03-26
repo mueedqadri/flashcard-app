@@ -1,8 +1,10 @@
 package com.example.flashcards.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
@@ -12,20 +14,30 @@ class NotesListRecyclerViewAdapter : RecyclerView.Adapter<NotesListRecyclerViewA
     private var flashcard = emptyList<FlashCardModel>()
 
 
-    private lateinit var mListener : onItemClickListener
+    private lateinit var mListener : OnItemClickListener
+    private lateinit var deleteListener : OnDeleteClickListener
 
-    interface onItemClickListener{
+    interface  OnDeleteClickListener{
+        fun onDeleteClick(position: Int)
+    }
+
+    fun onDeleteClickListener(listener: OnDeleteClickListener){
+        deleteListener = listener
+
+    }
+
+    interface OnItemClickListener{
         fun onItemClick(position: Int)
     }
-    fun setOnItemClickListener(listener: onItemClickListener){
+
+    fun setOnItemClickListener(listener: OnItemClickListener){
         mListener = listener
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlashCardListItem {
         val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
         val flashcardListItemView: View = layoutInflater.inflate(R.layout.notes_list_item, parent, false)
-        return FlashCardListItem(flashcardListItemView,mListener)
+        return FlashCardListItem(flashcardListItemView,mListener, deleteListener)
     }
 
     override fun onBindViewHolder(holder: FlashCardListItem, position: Int) {
@@ -39,6 +51,7 @@ class NotesListRecyclerViewAdapter : RecyclerView.Adapter<NotesListRecyclerViewA
         return flashcard.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setFlashCards(flashCards: List<FlashCardModel>) {
         this.flashcard = flashCards
         notifyDataSetChanged()
@@ -47,9 +60,12 @@ class NotesListRecyclerViewAdapter : RecyclerView.Adapter<NotesListRecyclerViewA
     fun getFlashCards(): List<FlashCardModel> {
         return this.flashcard;
     }
-    inner class FlashCardListItem(notesListItemView: View?, listener: onItemClickListener) : RecyclerView.ViewHolder(notesListItemView!!) {
+
+    inner class FlashCardListItem(notesListItemView: View?, listener: OnItemClickListener, deleteListener: OnDeleteClickListener) : RecyclerView.ViewHolder(notesListItemView!!) {
+
         val questionTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.questionTextView)
         val answerTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.answerTextView)
+        private val deleteButton: Button? = notesListItemView?.findViewById<Button>(R.id.deleteFlashCardButton)
         var flashcardPosition = 0
 
         init {
@@ -57,9 +73,9 @@ class NotesListRecyclerViewAdapter : RecyclerView.Adapter<NotesListRecyclerViewA
             itemView.setOnClickListener{
                 listener.onItemClick(adapterPosition)
             }
+            deleteButton?.setOnClickListener{
+                deleteListener.onDeleteClick(adapterPosition)
+            }
         }
     }
-
-
-
 }

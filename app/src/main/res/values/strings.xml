@@ -13,7 +13,8 @@
     <string name="empty_prompt">Question and answer cannot be empty</string>
     <string name="fab_content_desc">Create Note</string>
     <string name="save_flashcard_confirmation">Flashcard Saved Successfully </string>
-    <string name="empty_flashcard">Please add question and answer. </string>
+    <string name="empty_flashcard">Please add question and answer</string>
+    <string name="delete_successful">Flash card deleted</string>
     <string name="answer_text">Answer</string>
     <string name="question_text">Question</string>
 </resources>

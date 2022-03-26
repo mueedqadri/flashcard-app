@@ -80,8 +80,9 @@ class FlashCardDatabaseHandler(context: Context): SQLiteOpenHelper(context, DATA
         return flashCards
     }
 
-    fun deleteFlashCard(id:String){
+    fun deleteFlashCard(id:String): Int {
         val db = this.writableDatabase
-        db.delete(TABLE_NAME, KEY_ID+"="+id,null)
+        val success = db.delete(TABLE_NAME, "$KEY_ID='$id'",null)
+        return success
     }
 }
