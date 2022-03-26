@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,17 +27,19 @@ class FlashCardListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_notes_list, container, false)
+        return inflater.inflate(R.layout.flashcard_list_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var currentFolderId :Int = requireArguments().getInt("currentFolderId")
+        val toolBar = view.findViewById<Toolbar>(R.id.topAppBarFlashcardList)
         val flashcardRecyclerViewUI: RecyclerView = view.findViewById(R.id.notesListRecyclerView)
         flashcardRecyclerViewUI.layoutManager = LinearLayoutManager(activity)
         val flashcardListRecyclerViewAdapter: FlashCardListRecyclerViewAdapter =
             FlashCardListRecyclerViewAdapter()
 
-        context?.let { FlashCardDatabaseHandler(context = requireContext()).viewFlashCards() }
+        context?.let { FlashCardDatabaseHandler(context = requireContext()).viewFlashCards(currentFolderId) }
             ?.let { flashcardListRecyclerViewAdapter.setFlashCards(it) }
 
         flashcardRecyclerViewUI.adapter = flashcardListRecyclerViewAdapter
@@ -56,25 +59,26 @@ class FlashCardListFragment : Fragment() {
                             .show()
                     }
                     .show()
-
             }
         })
         flashcardListRecyclerViewAdapter.setOnItemClickListener(object :
             FlashCardListRecyclerViewAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
-                Log.i("position",position.toString())
                 var item = flashcardListRecyclerViewAdapter.getFlashCards()[position]
-                flashcardListRecyclerViewAdapter.getFlashCards();
                 findNavController().navigate(R.id.action_notesListFragment_to_viewFlashCardFragment,Bundle().apply {
-                    putString("fileName",item.toString());
-
+                    putString("fileName",item.toString())
+                    putInt("currentFolderId", currentFolderId)
                     putSerializable("currCard", item)
                 })
             }
         })
-
+        toolBar.setNavigationOnClickListener {
+            findNavController().navigate(R.id.action_noteListFragment_to_homepageFragment)
+        }
         view.findViewById<FloatingActionButton>(R.id.floating_action_button).setOnClickListener {
-            findNavController().navigate(R.id.action_notesListFragment_to_createNoteFragment)
+            findNavController().navigate(R.id.action_notesListFragment_to_createNoteFragment,Bundle().apply {
+                putInt("currentFolderId", currentFolderId)
+            })
         }
     }
 }

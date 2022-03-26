@@ -6,67 +6,67 @@
     android:layout_height="match_parent"
     tools:context=".fragments.HomepageFragment">
 
+
     <TextView
         android:id="@+id/appTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="@string/flashcard_app"
         android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.095" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedTextFieldForFolder"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="327dp"
-        android:layout_height="109dp"
+        android:layout_width="239dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="48dp"
         app:endIconMode="clear_text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/newFolderButton"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.86"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.App.SmallComponent">
 
 
         <EditText
             android:id="@+id/newFolderNameField"
             android:layout_width="match_parent"
-            android:layout_height="62dp"
+            android:layout_height="54dp"
             android:gravity="start|top"
-            android:hint="@string/create_folder"
+            android:hint="@string/create_folder_text"
 
             android:inputType="textShortMessage"
             app:endIconMode="none"
             tools:ignore="LabelFor,SpeakableTextPresentCheck" />
+
     </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/folderListRecyclerView"
+        android:layout_width="360dp"
+        android:layout_height="489dp"
+        android:layout_marginBottom="49dp"
+        app:layout_constraintBottom_toTopOf="@+id/outlinedTextFieldForFolder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appTitle"
+        tools:listitem="@layout/folder_list_item" />
 
     <Button
         android:id="@+id/newFolderButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
         android:text="Create"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.867"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.942" />
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/folderListRecyclerView"
-        android:layout_width="319dp"
-        android:layout_height="345dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appTitle"
-        app:layout_constraintVertical_bias="0.09"
-        tools:listitem="@layout/flash_card_list_item" />
+        app:layout_constraintVertical_bias="0.919" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

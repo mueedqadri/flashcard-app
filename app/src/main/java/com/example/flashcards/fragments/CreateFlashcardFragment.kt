@@ -15,27 +15,27 @@ import com.example.flashcards.persistence.FlashCardDatabaseHandler
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
-class CreateNoteFragment : Fragment() {
+class CreateFlashcardFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.create_flash_card_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val toolBar = view.findViewById<Toolbar>(R.id.topAppBarCreateNoteFragment)
+        var currentFolderId :Int = requireArguments().getInt("currentFolderId")
+        val toolBar = view.findViewById<Toolbar>(R.id.topAppBarCreateFlashcardFragment)
         val questionInputField = view.findViewById<TextView>(R.id.questionInputField)
         val answerInputField = view.findViewById<TextView>(R.id.answerInputField)
 
         toolBar.setNavigationOnClickListener {
-            checkCard(questionInputField, answerInputField, view, backAction = true)
+            checkCard(questionInputField, answerInputField, view, backAction = true, currentFolderId)
         }
         view.findViewById<Button>(R.id.createFlashcardButton).setOnClickListener {
-            checkCard(questionInputField, answerInputField, view, backAction = false)
+            checkCard(questionInputField, answerInputField, view, backAction = false, currentFolderId)
         }
     }
 
@@ -43,7 +43,8 @@ class CreateNoteFragment : Fragment() {
         questionInputField: TextView,
         answerInputField: TextView,
         view: View,
-        backAction: Boolean
+        backAction: Boolean,
+        currentFolderId: Int
     ) {
         if(backAction && questionInputField.text.toString().trim().isNotEmpty() && answerInputField.text.toString().trim().isNotEmpty()){
             Snackbar.make(view, R.string.flashcard_save_warning, Snackbar.LENGTH_LONG)
@@ -58,7 +59,7 @@ class CreateNoteFragment : Fragment() {
                 Snackbar.make(view, R.string.empty_flashcard, Snackbar.LENGTH_LONG)
                     .show()
             } else {
-                saveNote(questionInputField, answerInputField)
+                saveNote(questionInputField, answerInputField, currentFolderId)
                 Snackbar.make(view, R.string.save_flashcard_confirmation, Snackbar.LENGTH_LONG)
                     .show()
             }
@@ -66,14 +67,16 @@ class CreateNoteFragment : Fragment() {
 
     }
 
-    private fun saveNote(questionField: TextView, answerField: TextView) {
+    private fun saveNote(questionField: TextView, answerField: TextView, currentFolderId:Int) {
         val question: String = questionField.text.toString()
         val answer: String = answerField.text.toString()
         val id:String = UUID.randomUUID().toString()
-        val flashCard = FlashCardModel(id,question, answer)
+        val flashCard = FlashCardModel(id,question, answer, currentFolderId)
         if(question.isNotEmpty() || answer.isNotEmpty()){
             context?.let { FlashCardDatabaseHandler(context= requireContext()).addFlashCard(flashCard) }
         }
-        findNavController().navigate(R.id.action_createNoteFragment_to_notesListFragment)
+        findNavController().navigate(R.id.action_createNoteFragment_to_notesListFragment,Bundle().apply {
+            putInt("currentFolderId",currentFolderId)
+        })
     }
 }

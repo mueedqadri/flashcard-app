@@ -1,61 +1,65 @@
 package com.example.flashcards.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
+import com.example.flashcards.adapters.FlashCardListRecyclerViewAdapter
 import com.example.flashcards.adapters.FolderListRecyclerViewAdapter
 import com.example.flashcards.models.FolderModel
-import com.example.flashcards.persistence.FolderPersistence
-import org.w3c.dom.Text
+import com.example.flashcards.persistence.FlashCardDatabaseHandler
+import com.google.android.material.snackbar.Snackbar
 
 class HomepageFragment : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_homepage, container, false)
+        return inflater.inflate(R.layout.homepage_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //folder list - ListView
-        val folderListViewUI: ListView = view.findViewById(R.id.folderListView)
-        folderListViewUI.adapter = ArrayAdapter(view.context, android.R.layout.simple_list_item_1, FolderPersistence.folderList)
-
-        //folder list - RecyclerView
-        /** val folderRecyclerViewUI: RecyclerView = view.findViewById(R.id.folderListRecyclerView)
+        val folderRecyclerViewUI: RecyclerView = view.findViewById(R.id.folderListRecyclerView)
         folderRecyclerViewUI.layoutManager = LinearLayoutManager(activity)
-        val folderListRecyclerViewAdapter: FolderListRecyclerViewAdapter = FolderListRecyclerViewAdapter()
+        val folderListRecyclerViewAdapter: FolderListRecyclerViewAdapter =
+            FolderListRecyclerViewAdapter()
+
+        context?.let { FlashCardDatabaseHandler(context= requireContext()).viewFolders() }
+            ?.let { folderListRecyclerViewAdapter.setFolderList(it) }
         folderRecyclerViewUI.adapter = folderListRecyclerViewAdapter
-
-        folderListRecyclerViewAdapter.setFolderList(FolderPersistence.folderList) **/
-
-        //new folder - TODO: fix new folder name not displayed properly after creating folder and going back to homepage
-        val folderNameInputField = view.findViewById<TextView>(R.id.newFolderNameField)
-        val newFolderButton = view.findViewById<Button>(R.id.newFolderButton)
-
-        newFolderButton.setOnClickListener{
-            val folderName: String = folderNameInputField.toString()
-            if (folderName.isNotEmpty()){
-                val folder = FolderModel(folderName)
-
-                FolderPersistence.folderList.add(folder)
-                findNavController().navigate(R.id.action_homepageFragment_to_noteListFragment)
+        folderListRecyclerViewAdapter.setOnItemClickListener(object :
+            FolderListRecyclerViewAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                Log.i("position",position.toString())
+                var item = folderListRecyclerViewAdapter.getFolders()[position]
+                findNavController().navigate(R.id.action_homepageFragment_to_noteListFragment,Bundle().apply {
+                    putInt("currentFolderId",item.id);
+                })
+            }
+        })
+        view.findViewById<Button>(R.id.newFolderButton).setOnClickListener {
+            val folderNameTextView = view.findViewById<TextView>(R.id.newFolderNameField)
+            if (folderNameTextView.text.toString().trim().isEmpty()) {
+                Snackbar.make(view, R.string.empty_folder, Snackbar.LENGTH_LONG)
+                    .show()
+            }
+            else{
+                val newFolderId = context?.let { it1 -> FlashCardDatabaseHandler(it1).addFolder(FolderModel(0, folderNameTextView.text.toString())) }
+                if (newFolderId != null){
+                    findNavController().navigate(R.id.action_homepageFragment_to_noteListFragment,Bundle().apply {
+                        putInt("currentFolderId",newFolderId.toInt())
+                    })
+                }
             }
         }
     }

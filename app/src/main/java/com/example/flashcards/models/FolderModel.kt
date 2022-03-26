@@ -1,7 +1,4 @@
 package com.example.flashcards.models
 
-data class FolderModel(var folderName: String) {
-    override fun toString(): String {
-        return folderName
-    }
+data class FolderModel(var id : Int, var name: String) {
 }

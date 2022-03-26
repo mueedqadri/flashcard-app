@@ -1,29 +1,48 @@
 package com.example.flashcards.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
+import com.example.flashcards.models.FlashCardModel
 import com.example.flashcards.models.FolderModel
 
 class FolderListRecyclerViewAdapter() : RecyclerView.Adapter<FolderListRecyclerViewAdapter.FolderListItem>(){
     private var folderList = emptyList<FolderModel>()
-    inner class FolderListItem(folderListItemView: View?) : RecyclerView.ViewHolder(folderListItemView!!) {
-        val folderName: TextView? = folderListItemView?.findViewById<TextView>(R.id.folderName)
+
+    private lateinit var mListener : OnItemClickListener
+
+    inner class FolderListItem(folderListItemView: View?, listener: OnItemClickListener) : RecyclerView.ViewHolder(folderListItemView!!) {
+        val folderName: TextView? = folderListItemView?.findViewById<TextView>(R.id.folderNameTextView)
         var folderPosition = 0
+        init {
+
+            itemView.setOnClickListener{
+                listener.onItemClick(adapterPosition)
+            }
+        }
+    }
+
+    interface OnItemClickListener{
+        fun onItemClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener){
+        mListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderListItem {
         val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
         val folderListItemView: View = layoutInflater.inflate(R.layout.folder_list_item, parent, false)
-        return FolderListItem(folderListItemView)
+        return FolderListItem(folderListItemView, mListener)
     }
 
     override fun onBindViewHolder(holder: FolderListItem, position: Int) {
         val folder: FolderModel = folderList[position]
-        holder.folderName?.text = folder.folderName
+        holder.folderName?.text = folder.name
         holder.folderPosition = position
     }
 
@@ -31,6 +50,11 @@ class FolderListRecyclerViewAdapter() : RecyclerView.Adapter<FolderListRecyclerV
         return folderList.size
     }
 
+    fun getFolders(): List<FolderModel> {
+        return this.folderList;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
     fun setFolderList(folderList: List<FolderModel>){
         this.folderList = folderList
         notifyDataSetChanged()

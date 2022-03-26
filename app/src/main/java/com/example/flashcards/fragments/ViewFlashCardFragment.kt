@@ -22,15 +22,10 @@ import com.google.android.material.snackbar.Snackbar
 
 class ViewFlashCardFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.view_flashcard, container, false)
     }
 
@@ -38,6 +33,7 @@ class ViewFlashCardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.i("tagtag",requireArguments().getSerializable("currCard").toString())
+        var currentFolderId :Int = requireArguments().getInt("currentFolderId")
         var currentCard = requireArguments().getSerializable("currCard");
         val toolBar = view.findViewById<Toolbar>(R.id.topAppBarViewCardFragment)
         val viewCardQuestion = view.findViewById<TextView>(R.id.view_card_question)

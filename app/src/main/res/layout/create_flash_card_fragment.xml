@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayoutCreateNoteFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.CreateNoteFragment">
+    tools:context=".fragments.CreateFlashcardFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBarCreateNoteFragment"
+            android:id="@+id/topAppBarCreateFlashcardFragment"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"

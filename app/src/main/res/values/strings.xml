@@ -15,9 +15,12 @@
     <string name="fab_content_desc">Create Note</string>
     <string name="save_flashcard_confirmation">Flashcard Saved Successfully </string>
     <string name="empty_flashcard">Please add question and answer</string>
+    <string name="empty_folder">Please enter folder name</string>
     <string name="delete_successful">Flash card deleted</string>
     <string name="answer_text">Answer</string>
     <string name="question_text">Question</string>
-    <string name="create_folder">New folder name</string>
+    <string name="create_folder_text">Create Folder</string>
     <string name="folder_text">Folder</string>
+    <string name="flashcard_app">Flashcard App</string>
+    <string name="folder_name">Folder Name</string>
 </resources>
