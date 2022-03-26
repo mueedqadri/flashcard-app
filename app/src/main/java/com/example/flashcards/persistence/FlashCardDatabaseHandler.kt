@@ -134,8 +134,9 @@ class FlashCardDatabaseHandler(context: Context): SQLiteOpenHelper(context, DATA
         return folders
     }
 
-    fun deleteFolder(id: String): Int {
+    fun deleteFolder(id: Int): Boolean {
         val db = this.writableDatabase
-        return db.delete(FOLDER_TABLE_NAME, "${FOLDER_KEY_ID}=$id", null)
+        return db.delete(FOLDER_TABLE_NAME, "${FOLDER_KEY_ID}=$id", null) > 0
+                && db.delete(FLASH_CARD_TABLE_NAME, "$FOLDER_KEY_ID=$id", null) > 0
     }
 }

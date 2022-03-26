@@ -12,8 +12,6 @@ import com.example.flashcards.models.FlashCardModel
 
 class FlashCardListRecyclerViewAdapter : RecyclerView.Adapter<FlashCardListRecyclerViewAdapter.FlashCardListItem>() {
     private var flashcard = emptyList<FlashCardModel>()
-
-
     private lateinit var mListener : OnItemClickListener
     private lateinit var deleteListener : OnDeleteClickListener
 
@@ -23,7 +21,6 @@ class FlashCardListRecyclerViewAdapter : RecyclerView.Adapter<FlashCardListRecyc
 
     fun onDeleteClickListener(listener: OnDeleteClickListener){
         deleteListener = listener
-
     }
 
     interface OnItemClickListener{
@@ -62,14 +59,11 @@ class FlashCardListRecyclerViewAdapter : RecyclerView.Adapter<FlashCardListRecyc
     }
 
     inner class FlashCardListItem(notesListItemView: View?, listener: OnItemClickListener, deleteListener: OnDeleteClickListener) : RecyclerView.ViewHolder(notesListItemView!!) {
-
         val questionTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.questionTextView)
         val answerTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.answerTextView)
         private val deleteButton: Button? = notesListItemView?.findViewById<Button>(R.id.deleteFlashCardButton)
         var flashcardPosition = 0
-
         init {
-
             itemView.setOnClickListener{
                 listener.onItemClick(adapterPosition)
             }

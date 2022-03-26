@@ -1,5 +1,6 @@
 package com.example.flashcards.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -45,6 +46,24 @@ class HomepageFragment : Fragment() {
                 findNavController().navigate(R.id.action_homepageFragment_to_noteListFragment,Bundle().apply {
                     putInt("currentFolderId",item.id);
                 })
+            }
+        })
+        folderListRecyclerViewAdapter.onDeleteClickListener(object:
+            FolderListRecyclerViewAdapter.OnDeleteClickListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDeleteClick(position: Int) {
+                Snackbar.make(view, R.string.folder_delete_warning, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.yes) {
+                        val item = folderListRecyclerViewAdapter.getFolders()[position]
+                        FlashCardDatabaseHandler(context = requireContext()).deleteFolder(item.id)
+                        folderListRecyclerViewAdapter.setFolderList(folderListRecyclerViewAdapter.getFolders().filter {
+                            it.id != item.id
+                        } )
+                        folderListRecyclerViewAdapter.notifyItemRemoved(position)
+                        Snackbar.make(view, R.string.folder_deleted_successful, Snackbar.LENGTH_LONG)
+                            .show()
+                    }
+                    .show()
             }
         })
         view.findViewById<Button>(R.id.newFolderButton).setOnClickListener {
