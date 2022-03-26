@@ -13,12 +13,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.flashcards.R
 import com.example.flashcards.models.FlashCardModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
+import java.io.Serializable
 
 class ViewFlashCardFragment : Fragment() {
 
@@ -38,6 +40,11 @@ class ViewFlashCardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.i("tagtag",requireArguments().getSerializable("currCard").toString())
+        var position = requireArguments().getInt("currCardPosition")
+        var allcard = (requireArguments().getSerializable("allCards")) as List<FlashCardModel>
+        Log.i("allflashcards",allcard.toString())
+        var card = allcard.get(position);
+        Log.i("currentCard",card.toString());
         var currentCard = requireArguments().getSerializable("currCard");
         val toolBar = view.findViewById<Toolbar>(R.id.topAppBarViewCardFragment)
         val viewCardQuestion = view.findViewById<TextView>(R.id.view_card_question)
@@ -45,16 +52,17 @@ class ViewFlashCardFragment : Fragment() {
         val viewAnswerButton = view.findViewById<Button>(R.id.view_answer_button)
         val layoutExpand = view.findViewById<LinearLayout>(R.id.layout_expand)
         val cardView = view.findViewById<CardView>(R.id.view_cardview)
-        val nextCardbutton = view.findViewById<Button>(R.id.previous_card_button)
+        val nextCardbutton = view.findViewById<Button>(R.id.next_card_button)
         val previousCardbutton = view.findViewById<Button>(R.id.previous_card_button)
 
-         viewCardQuestion.text = (currentCard as FlashCardModel).question;
+
+         viewCardQuestion.text = (card as FlashCardModel).question;
         viewAnswerButton.setOnClickListener{
             if(layoutExpand.visibility == View.GONE){
                 TransitionManager.beginDelayedTransition(cardView, AutoTransition())
                 layoutExpand.visibility = View.VISIBLE
                 viewAnswerButton.text = "Hide Answer"
-                viewCardAnswer.text = (currentCard as FlashCardModel).answer;
+                viewCardAnswer.text = (card as FlashCardModel).answer;
             }
             else{
                 TransitionManager.beginDelayedTransition(cardView, AutoTransition())
@@ -63,7 +71,30 @@ class ViewFlashCardFragment : Fragment() {
             }
         }
         toolBar.setNavigationOnClickListener {
+            findNavController().navigate(R.id.action_viewFlashCardFragment_to_notesListFragment)
+        }
+        nextCardbutton.isVisible = allcard.size-1 != position
+        previousCardbutton.isVisible = position != 0
+        nextCardbutton.setOnClickListener{
+            position++;
+            Log.i("position in next",position.toString())
+            nextCardbutton.isVisible = allcard.size-1 != position
+            previousCardbutton.isVisible = position != 0
+            var card = allcard[position]
+            viewCardQuestion.text = (card as FlashCardModel).question;
+            viewCardAnswer.text = (card as FlashCardModel).answer;
 
         }
+        previousCardbutton.setOnClickListener{
+            position--;
+            Log.i("position in previous",position.toString())
+            previousCardbutton.isVisible = position != 0
+            nextCardbutton.isVisible = allcard.size-1 != position
+            var card1 = allcard[position]
+            viewCardQuestion.text = (card1 as FlashCardModel).question;
+            viewCardAnswer.text = (card1 as FlashCardModel).answer;
+            //position--;
+        }
+
     }
 }
