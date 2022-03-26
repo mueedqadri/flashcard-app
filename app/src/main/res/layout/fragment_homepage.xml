@@ -59,14 +59,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.942" />
 
-    <ListView
-        android:id="@+id/folderListView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/folderListRecyclerView"
         android:layout_width="319dp"
         android:layout_height="345dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.391" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.09"
+        tools:listitem="@layout/folder_list_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
