@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.flashcards.R
 import com.example.flashcards.models.FlashCardModel
+import com.example.flashcards.models.ImageModel
 import com.example.flashcards.persistence.FlashCardDatabaseHandler
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
@@ -25,6 +26,7 @@ import java.util.*
 class CreateFlashcardFragment : Fragment() {
     private val CAMERA_REQUEST_CODE = 200
     private val GALLERY_REQUEST_CODE = 100
+    private val image: ImageModel = ImageModel()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,9 +42,7 @@ class CreateFlashcardFragment : Fragment() {
         val answerInputField = view.findViewById<TextView>(R.id.answerInputField)
         val cameraQuestion = view.findViewById<Button>(R.id.questionCameraButton)
         toolBar.setNavigationOnClickListener {
-            findNavController().navigate(R.id.action_createNoteFragment_to_notesListFragment,Bundle().apply {
-                putInt("currentFolderId",currentFolderId)
-            })
+            checkCard(questionInputField, answerInputField, view, backAction = true, currentFolderId)
         }
         view.findViewById<Button>(R.id.createFlashcardButton).setOnClickListener {
             checkCard(questionInputField, answerInputField, view, backAction = false, currentFolderId)
@@ -77,16 +77,18 @@ class CreateFlashcardFragment : Fragment() {
         startActivityForResult(intent, GALLERY_REQUEST_CODE)
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        val imageView = view?.findViewById<ImageView>(R.id.image_view);
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_REQUEST_CODE && data != null){
-//            imageView?.setImageBitmap(data.extras?.get("data") as Bitmap)
-//        } else if (resultCode == Activity.RESULT_OK && requestCode == GALLERY_REQUEST_CODE){
-//            imageView?.setImageURI(data?.data) // handle chosen image
-//        }
-//
-//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        image.hasImage = true
+        val imageView = view?.findViewById<ImageView>(R.id.questionImageView)
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_REQUEST_CODE && data != null){
+            imageView?.setImageBitmap(data.extras?.get("data") as Bitmap)
+            image.bitmap = data.extras?.get("data") as Bitmap
+        } else if (resultCode == Activity.RESULT_OK && requestCode == GALLERY_REQUEST_CODE){
+            imageView?.setImageURI(data?.data)
+            image.uri = data?.data!!
+        }
+    }
 
 
     private fun checkCard(
@@ -105,7 +107,7 @@ class CreateFlashcardFragment : Fragment() {
         }else if (backAction){
             findNavController().navigate(R.id.action_createNoteFragment_to_notesListFragment)
         }else{
-            if (questionInputField.text.toString().trim().isEmpty() || answerInputField.text.toString().trim().isEmpty()) {
+            if ((questionInputField.text.toString().trim().isEmpty() && image.bitmap == null) || answerInputField.text.toString().trim().isEmpty()) {
                 Snackbar.make(view, R.string.empty_flashcard, Snackbar.LENGTH_LONG)
                     .show()
             } else {
@@ -121,7 +123,7 @@ class CreateFlashcardFragment : Fragment() {
         val question: String = questionField.text.toString()
         val answer: String = answerField.text.toString()
         val id:String = UUID.randomUUID().toString()
-        val flashCard = FlashCardModel(id,question, answer, currentFolderId)
+        val flashCard = FlashCardModel(id,question, answer, currentFolderId, image)
         if(question.isNotEmpty() || answer.isNotEmpty()){
             context?.let { FlashCardDatabaseHandler(context= requireContext()).addFlashCard(flashCard) }
         }
