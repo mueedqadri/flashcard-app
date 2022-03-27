@@ -64,6 +64,15 @@
 
             </TextView>
 
+            <ImageView
+                android:id="@+id/view_cardImage_question"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="fitCenter"
+                android:layout_marginBottom="15dp">
+
+            </ImageView>
+
             <LinearLayout
                 android:id="@+id/layout_expand"
                 android:layout_width="match_parent"

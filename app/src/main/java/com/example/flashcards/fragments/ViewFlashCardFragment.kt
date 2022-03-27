@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -49,7 +50,19 @@ class ViewFlashCardFragment : Fragment() {
         val cardView = view.findViewById<CardView>(R.id.view_cardview)
         val nextCardbutton = view.findViewById<Button>(R.id.next_card_button)
         val previousCardbutton = view.findViewById<Button>(R.id.previous_card_button)
-        viewCardQuestion.text = (card as FlashCardModel).question;
+        val viewCardImageQuestion = view.findViewById<ImageView>(R.id.view_cardImage_question)
+        //Setting initial card based on if it is an imagecard or a textcard
+        if((card as FlashCardModel).image.hasImage == false){
+            viewCardImageQuestion.visibility = View.GONE
+            viewCardQuestion.visibility = View.VISIBLE
+            viewCardQuestion.text = (card as FlashCardModel).question
+        }
+        else{
+            viewCardQuestion.visibility = View.GONE
+            viewCardImageQuestion.visibility = View.VISIBLE
+            viewCardImageQuestion.setImageBitmap((card as FlashCardModel).image.bitmap)
+        }
+
         viewAnswerButton.setOnClickListener{
             if(layoutExpand.visibility == View.GONE){
                 TransitionManager.beginDelayedTransition(cardView, AutoTransition())
@@ -92,7 +105,17 @@ class ViewFlashCardFragment : Fragment() {
 
             //Set Card Data
             var card = allcard[position]
+            //Hiding views based on if it is an image or textcard
+            if((card as FlashCardModel).image.hasImage == false){
+                viewCardImageQuestion.visibility = View.GONE
+                viewCardQuestion.visibility = View.VISIBLE
+            }
+            else{
+                viewCardQuestion.visibility = View.GONE
+                viewCardImageQuestion.visibility = View.VISIBLE
+            }
             viewCardQuestion.text = (card as FlashCardModel).question;
+            viewCardImageQuestion.setImageBitmap((card as FlashCardModel).image.bitmap)
             Log.i("ANSWR",card.answer)
 
         }
@@ -114,7 +137,17 @@ class ViewFlashCardFragment : Fragment() {
 
             //Set card data
             var card1 = allcard[position]
+            //Hiding views based on if it is an image or text card
+            if((card1 as FlashCardModel).image.hasImage == false){
+                viewCardImageQuestion.visibility = View.GONE
+                viewCardQuestion.visibility = View.VISIBLE
+            }
+            else{
+                viewCardQuestion.visibility = View.GONE
+                viewCardImageQuestion.visibility = View.VISIBLE
+            }
             viewCardQuestion.text = (card1 as FlashCardModel).question;
+            viewCardImageQuestion.setImageBitmap((card1 as FlashCardModel).image.bitmap)
 
         }
 
