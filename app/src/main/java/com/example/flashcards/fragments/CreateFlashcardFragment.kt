@@ -69,17 +69,21 @@ class CreateFlashcardFragment : Fragment() {
             })
         builder.create().show()
     }
+
+    //Open camera to take the picture
     private fun capturePhoto() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
     }
 
+    //Open image picker to select the image from gallery
     private fun openGalleryForImage() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
         startActivityForResult(intent, GALLERY_REQUEST_CODE)
     }
 
+    //Handle data after image selected
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         image.hasImage = true
         val questionInputField = view?.findViewById<TextView>(R.id.questionInputField)
@@ -104,10 +108,9 @@ class CreateFlashcardFragment : Fragment() {
         questionInputField?.visibility = View.GONE
         outlinedTextFieldForQuestion?.visibility = View.GONE
         questionCameraButton?.visibility = View.GONE
-
     }
 
-
+    //Validate question, answer and image
     private fun checkCard(
         questionInputField: TextView,
         answerInputField: TextView,
@@ -138,6 +141,7 @@ class CreateFlashcardFragment : Fragment() {
 
     }
 
+    //Save flashcard to the database
     private fun saveFlashcard(questionField: TextView, answerField: TextView, currentFolderId:Int) {
         val question: String = questionField.text.toString()
         val answer: String = answerField.text.toString()

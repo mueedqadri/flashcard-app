@@ -42,6 +42,7 @@ class FlashCardListFragment : Fragment() {
         flashcardRecyclerViewUI.adapter = flashcardListRecyclerViewAdapter
         flashcardListRecyclerViewAdapter.onDeleteClickListener(object:
             FlashCardListRecyclerViewAdapter.OnDeleteClickListener {
+            //Handle delete flashcard event
             @SuppressLint("NotifyDataSetChanged")
             override fun onDeleteClick(position: Int) {
                 Snackbar.make(view, R.string.flashcard_delete_warning, Snackbar.LENGTH_LONG)
@@ -60,9 +61,10 @@ class FlashCardListFragment : Fragment() {
         })
         flashcardListRecyclerViewAdapter.setOnItemClickListener(object :
             FlashCardListRecyclerViewAdapter.OnItemClickListener {
+            //View flashcard when clicked on
             override fun onItemClick(position: Int) {
-                var item = flashcardListRecyclerViewAdapter.getFlashCards()[position]
-                var allCards = flashcardListRecyclerViewAdapter.getFlashCards();
+                val item = flashcardListRecyclerViewAdapter.getFlashCards()[position]
+                val allCards = flashcardListRecyclerViewAdapter.getFlashCards();
                 Log.i("All the flashcards",allCards.toString())
                 findNavController().navigate(R.id.action_flashcardListFragment_to_viewFlashCardFragment,Bundle().apply {
                     putString("fileName",item.toString())
@@ -73,9 +75,11 @@ class FlashCardListFragment : Fragment() {
                 })
             }
         })
+        //Handle back action
         toolBar.setNavigationOnClickListener {
             findNavController().navigate(R.id.action_flashcardListFragment_to_homepageFragment)
         }
+        //Handle click create flashcard
         view.findViewById<FloatingActionButton>(R.id.floating_action_button).setOnClickListener {
             findNavController().navigate(R.id.action_flashcardListFragment_to_createFlashcardFragment,Bundle().apply {
                 putInt("currentFolderId", currentFolderId)

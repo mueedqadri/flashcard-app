@@ -34,11 +34,13 @@ class HomepageFragment : Fragment() {
         val folderListRecyclerViewAdapter: FolderListRecyclerViewAdapter =
             FolderListRecyclerViewAdapter()
 
+        //Fetch folders from the database
         context?.let { FlashCardDatabaseHandler(context= requireContext()).viewFolders() }
             ?.let { folderListRecyclerViewAdapter.setFolderList(it) }
         folderRecyclerViewUI.adapter = folderListRecyclerViewAdapter
         folderListRecyclerViewAdapter.setOnItemClickListener(object :
             FolderListRecyclerViewAdapter.OnItemClickListener {
+            //Open folder when clicked
             override fun onItemClick(position: Int) {
                 Log.i("position",position.toString())
                 var item = folderListRecyclerViewAdapter.getFolders()[position]
@@ -47,6 +49,8 @@ class HomepageFragment : Fragment() {
                 })
             }
         })
+
+        //Delete folder
         folderListRecyclerViewAdapter.onDeleteClickListener(object:
             FolderListRecyclerViewAdapter.OnDeleteClickListener {
             @SuppressLint("NotifyDataSetChanged")
@@ -65,6 +69,7 @@ class HomepageFragment : Fragment() {
                     .show()
             }
         })
+        //Create a new folder
         view.findViewById<Button>(R.id.newFolderButton).setOnClickListener {
             val folderNameTextView = view.findViewById<TextView>(R.id.newFolderNameField)
             if (folderNameTextView.text.toString().trim().isEmpty()) {
