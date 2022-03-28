@@ -100,7 +100,7 @@ class FlashCardDatabaseHandler(context: Context): SQLiteOpenHelper(context, DATA
 
     fun deleteFlashCard(id: String): Int {
         val db = this.writableDatabase
-        return db.delete(FLASH_CARD_TABLE_NAME, "${FLASH_CARD_KEY_ID}=$id", null)
+        return db.delete(FLASH_CARD_TABLE_NAME, "${FLASH_CARD_KEY_ID}='$id'", null)
     }
 
     @SuppressLint("Range")

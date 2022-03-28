@@ -40,7 +40,7 @@
         app:srcCompat="@drawable/ic_baseline_add_24" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/notesListRecyclerView"
+        android:id="@+id/flashcardListRecyclerView"
         android:layout_width="402dp"
         android:layout_height="635dp"
         android:layout_marginStart="16dp"

@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
-import com.example.flashcards.adapters.FlashCardListRecyclerViewAdapter
 import com.example.flashcards.adapters.FolderListRecyclerViewAdapter
 import com.example.flashcards.models.FolderModel
 import com.example.flashcards.persistence.FlashCardDatabaseHandler
@@ -43,7 +42,7 @@ class HomepageFragment : Fragment() {
             override fun onItemClick(position: Int) {
                 Log.i("position",position.toString())
                 var item = folderListRecyclerViewAdapter.getFolders()[position]
-                findNavController().navigate(R.id.action_homepageFragment_to_noteListFragment,Bundle().apply {
+                findNavController().navigate(R.id.action_homepageFragment_to_flashcardListFragment,Bundle().apply {
                     putInt("currentFolderId",item.id);
                 })
             }
@@ -75,7 +74,7 @@ class HomepageFragment : Fragment() {
             else{
                 val newFolderId = context?.let { it1 -> FlashCardDatabaseHandler(it1).addFolder(FolderModel(0, folderNameTextView.text.toString())) }
                 if (newFolderId != null){
-                    findNavController().navigate(R.id.action_homepageFragment_to_noteListFragment,Bundle().apply {
+                    findNavController().navigate(R.id.action_homepageFragment_to_flashcardListFragment,Bundle().apply {
                         putInt("currentFolderId",newFolderId.toInt())
                     })
                 }

@@ -20,10 +20,6 @@ import java.io.Serializable
 
 class FlashCardListFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,7 +31,7 @@ class FlashCardListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         var currentFolderId :Int = requireArguments().getInt("currentFolderId")
         val toolBar = view.findViewById<Toolbar>(R.id.topAppBarFlashcardList)
-        val flashcardRecyclerViewUI: RecyclerView = view.findViewById(R.id.notesListRecyclerView)
+        val flashcardRecyclerViewUI: RecyclerView = view.findViewById(R.id.flashcardListRecyclerView)
         flashcardRecyclerViewUI.layoutManager = LinearLayoutManager(activity)
         val flashcardListRecyclerViewAdapter: FlashCardListRecyclerViewAdapter =
             FlashCardListRecyclerViewAdapter()
@@ -68,7 +64,7 @@ class FlashCardListFragment : Fragment() {
                 var item = flashcardListRecyclerViewAdapter.getFlashCards()[position]
                 var allCards = flashcardListRecyclerViewAdapter.getFlashCards();
                 Log.i("All the flashcards",allCards.toString())
-                findNavController().navigate(R.id.action_notesListFragment_to_viewFlashCardFragment,Bundle().apply {
+                findNavController().navigate(R.id.action_flashcardListFragment_to_viewFlashCardFragment,Bundle().apply {
                     putString("fileName",item.toString())
                     putInt("currentFolderId", currentFolderId)
                     putSerializable("currCard", item)
@@ -78,10 +74,10 @@ class FlashCardListFragment : Fragment() {
             }
         })
         toolBar.setNavigationOnClickListener {
-            findNavController().navigate(R.id.action_noteListFragment_to_homepageFragment)
+            findNavController().navigate(R.id.action_flashcardListFragment_to_homepageFragment)
         }
         view.findViewById<FloatingActionButton>(R.id.floating_action_button).setOnClickListener {
-            findNavController().navigate(R.id.action_notesListFragment_to_createNoteFragment,Bundle().apply {
+            findNavController().navigate(R.id.action_flashcardListFragment_to_createFlashcardFragment,Bundle().apply {
                 putInt("currentFolderId", currentFolderId)
             })
         }

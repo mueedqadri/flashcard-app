@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ import com.example.flashcards.models.FlashCardModel
 import com.example.flashcards.models.ImageModel
 import com.example.flashcards.persistence.FlashCardDatabaseHandler
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import java.util.*
 
 class CreateFlashcardFragment : Fragment() {
@@ -71,23 +73,38 @@ class CreateFlashcardFragment : Fragment() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
     }
+
     private fun openGalleryForImage() {
-        val intent = Intent(Intent.ACTION_PICK)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
         startActivityForResult(intent, GALLERY_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         image.hasImage = true
+        val questionInputField = view?.findViewById<TextView>(R.id.questionInputField)
+        val outlinedTextFieldForQuestion = view?.findViewById<TextInputLayout>(R.id.outlinedTextFieldForQuestion)
+        val questionCameraButton = view?.findViewById<Button>(R.id.questionCameraButton)
         val imageView = view?.findViewById<ImageView>(R.id.questionImageView)
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_REQUEST_CODE && data != null){
             imageView?.setImageBitmap(data.extras?.get("data") as Bitmap)
             image.bitmap = data.extras?.get("data") as Bitmap
         } else if (resultCode == Activity.RESULT_OK && requestCode == GALLERY_REQUEST_CODE){
+            val treeUri: Uri? = data?.data
+            treeUri?.let {
+                context?.contentResolver?.takePersistableUriPermission(
+                    it, Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                )
+            }
             imageView?.setImageURI(data?.data)
             image.uri = data?.data!!
         }
+        questionInputField?.visibility = View.GONE
+        outlinedTextFieldForQuestion?.visibility = View.GONE
+        questionCameraButton?.visibility = View.GONE
+
     }
 
 
@@ -101,17 +118,19 @@ class CreateFlashcardFragment : Fragment() {
         if(backAction && questionInputField.text.toString().trim().isNotEmpty() && answerInputField.text.toString().trim().isNotEmpty()){
             Snackbar.make(view, R.string.flashcard_save_warning, Snackbar.LENGTH_LONG)
                 .setAction(R.string.yes) {
-                    findNavController().navigate(R.id.action_createNoteFragment_to_notesListFragment)
+                    findNavController().navigate(R.id.action_createFlashcardFragment_to_flashcardListFragment,Bundle().apply {
+                        putInt("currentFolderId",currentFolderId)})
                 }
                 .show()
         }else if (backAction){
-            findNavController().navigate(R.id.action_createNoteFragment_to_notesListFragment)
+            findNavController().navigate(R.id.action_createFlashcardFragment_to_flashcardListFragment,Bundle().apply {
+                putInt("currentFolderId",currentFolderId)})
         }else{
-            if ((questionInputField.text.toString().trim().isEmpty() && image.bitmap == null) || answerInputField.text.toString().trim().isEmpty()) {
+            if ((questionInputField.text.toString().trim().isEmpty() && !image.hasImage) || answerInputField.text.toString().trim().isEmpty()) {
                 Snackbar.make(view, R.string.empty_flashcard, Snackbar.LENGTH_LONG)
                     .show()
             } else {
-                saveNote(questionInputField, answerInputField, currentFolderId)
+                saveFlashcard(questionInputField, answerInputField, currentFolderId)
                 Snackbar.make(view, R.string.save_flashcard_confirmation, Snackbar.LENGTH_LONG)
                     .show()
             }
@@ -119,7 +138,7 @@ class CreateFlashcardFragment : Fragment() {
 
     }
 
-    private fun saveNote(questionField: TextView, answerField: TextView, currentFolderId:Int) {
+    private fun saveFlashcard(questionField: TextView, answerField: TextView, currentFolderId:Int) {
         val question: String = questionField.text.toString()
         val answer: String = answerField.text.toString()
         val id:String = UUID.randomUUID().toString()
@@ -127,7 +146,7 @@ class CreateFlashcardFragment : Fragment() {
         if(question.isNotEmpty() || answer.isNotEmpty()){
             context?.let { FlashCardDatabaseHandler(context= requireContext()).addFlashCard(flashCard) }
         }
-        findNavController().navigate(R.id.action_createNoteFragment_to_notesListFragment,Bundle().apply {
+        findNavController().navigate(R.id.action_createFlashcardFragment_to_flashcardListFragment,Bundle().apply {
             putInt("currentFolderId",currentFolderId)
         })
     }

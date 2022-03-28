@@ -1,10 +1,12 @@
 package com.example.flashcards.adapters
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
@@ -39,7 +41,16 @@ class FlashCardListRecyclerViewAdapter : RecyclerView.Adapter<FlashCardListRecyc
 
     override fun onBindViewHolder(holder: FlashCardListItem, position: Int) {
         val flashCard: FlashCardModel = flashcard[position]
-        holder.questionTextView?.text = flashCard.question
+        if(flashCard.image.hasImage){
+            holder.questionTextView?.text = "Image-Card"
+            if(flashCard.image.bitmap != null){
+                holder.thumbnail?.setImageBitmap(flashCard.image.bitmap)
+            }else{
+                holder.thumbnail?.setImageURI(flashCard.image.uri)
+            }
+        }else{
+            holder.questionTextView?.text = flashCard.question
+        }
         holder.answerTextView?.text = flashCard.answer
         holder.flashcardPosition = position
     }
@@ -58,10 +69,11 @@ class FlashCardListRecyclerViewAdapter : RecyclerView.Adapter<FlashCardListRecyc
         return this.flashcard;
     }
 
-    inner class FlashCardListItem(notesListItemView: View?, listener: OnItemClickListener, deleteListener: OnDeleteClickListener) : RecyclerView.ViewHolder(notesListItemView!!) {
-        val questionTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.questionTextView)
-        val answerTextView: TextView? = notesListItemView?.findViewById<TextView>(R.id.answerTextView)
-        private val deleteButton: Button? = notesListItemView?.findViewById<Button>(R.id.deleteFlashCardButton)
+    inner class FlashCardListItem(flashcardListItemView: View?, listener: OnItemClickListener, deleteListener: OnDeleteClickListener) : RecyclerView.ViewHolder(flashcardListItemView!!) {
+        val questionTextView: TextView? = flashcardListItemView?.findViewById<TextView>(R.id.questionTextView)
+        val answerTextView: TextView? = flashcardListItemView?.findViewById<TextView>(R.id.answerTextView)
+        val thumbnail: ImageView? = flashcardListItemView?.findViewById<ImageView>(R.id.flashCardThumbnail)
+        private val deleteButton: Button? = flashcardListItemView?.findViewById<Button>(R.id.deleteFlashCardButton)
         var flashcardPosition = 0
         init {
             itemView.setOnClickListener{

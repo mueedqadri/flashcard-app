@@ -11,33 +11,33 @@
         android:label="fragment_homepage"
         tools:layout="@layout/homepage_fragment">
         <action
-            android:id="@+id/action_homepageFragment_to_noteListFragment"
+            android:id="@+id/action_homepageFragment_to_flashcardListFragment"
             app:destination="@+id/flashcardListFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/flashcardListFragment"
         android:name="com.example.flashcards.fragments.FlashCardListFragment"
-        android:label="fragment_notes_list"
+        android:label="fragment_flashcard_list"
         tools:layout="@layout/flashcard_list_fragment">
         <action
-            android:id="@+id/action_notesListFragment_to_createNoteFragment"
-            app:destination="@id/createNoteFragment" />
+            android:id="@+id/action_flashcardListFragment_to_createFlashcardFragment"
+            app:destination="@id/createFlashcardFragment" />
         <action
-            android:id="@+id/action_notesListFragment_to_viewFlashCardFragment"
+            android:id="@+id/action_flashcardListFragment_to_viewFlashCardFragment"
             app:destination="@id/viewFlashCardFragment" />
         <action
-            android:id="@+id/action_noteListFragment_to_homepageFragment"
+            android:id="@+id/action_flashcardListFragment_to_homepageFragment"
             app:destination="@+id/homeFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/createNoteFragment"
+        android:id="@+id/createFlashcardFragment"
         android:name="com.example.flashcards.fragments.CreateFlashcardFragment"
-        android:label="fragment_create_note"
+        android:label="fragment_create_flashcard"
         tools:layout="@layout/create_flash_card_fragment">
         <action
-            android:id="@+id/action_createNoteFragment_to_notesListFragment"
+            android:id="@+id/action_createFlashcardFragment_to_flashcardListFragment"
             app:destination="@id/flashcardListFragment" />
     </fragment>
     <fragment
@@ -46,7 +46,7 @@
         android:label="fragment_view_flashcard"
         tools:layout="@layout/view_flashcard">
         <action
-            android:id="@+id/action_viewFlashCardFragment_to_notesListFragment"
+            android:id="@+id/action_viewFlashCardFragment_to_flashcardListFragment"
             app:destination="@+id/flashcardListFragment"/>
     </fragment>
 
